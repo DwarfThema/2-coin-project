@@ -1,0 +1,191 @@
+import {
+  CameraControls,
+  Environment,
+  Float,
+  Gltf,
+  Html,
+  SoftShadows,
+  Stars,
+  useCursor,
+} from "@react-three/drei";
+import { isMobile } from "react-device-detect";
+import { useEffect, useRef, useState } from "react";
+import Rig from "./rig";
+import { Vector3 } from "three";
+import { useControls } from "leva";
+import { useFrame, useThree } from "@react-three/fiber";
+import { useRecoilState } from "recoil";
+import { lerp } from "three/src/math/MathUtils.js";
+import Angel from "./angel";
+import { sequenceIntState } from "../util/atom";
+
+export default function MainScene() {
+  // Cam Ref
+  const [camPos, setCamPos] = useState(new Vector3(0, 0, 1.3));
+  const [camFocus, setCamFocus] = useState(new Vector3(0, 0, 0));
+  const [camSpeed, setCamSpeed] = useState<number>(1);
+
+  // Hover Ref
+  const [hover, setHover] = useState(false);
+  useCursor(hover);
+
+  // Sequence Ref
+  const [sequenceInt, setSequenceInt] = useRecoilState(sequenceIntState);
+  const [sequence3Correct, setSequence3Correct] = useState(false);
+  const [sequence8CamYCorrect, setSequence8CamYCorrect] = useState(-0.5);
+  const [sequence8CamZCorrect, setSequence8CamZCorrect] = useState(0);
+
+  // Fog Ref
+  const [fogFar, setFogFar] = useState(2.3);
+
+  // Coin Ref
+  const [coinRoate, setCoinRotate] = useState(0);
+  const [coinFloat, setCoinFloat] = useState(true);
+  const [coinY, setCoinY] = useState(0);
+  const [coinZ, SetCoinZ] = useState(1);
+
+  useEffect(() => {
+    if (sequenceInt === 1) {
+      setTimeout(() => {
+        setSequenceInt(2);
+      }, 2000);
+    }
+  }, []);
+
+  useFrame(() => {
+    console.log(sequenceInt);
+
+    if (sequenceInt === 0 || sequenceInt === 1 || sequenceInt === 2) {
+      setCamPos(new Vector3(0, 0, 1.3));
+    }
+
+    if (sequenceInt === 3 || sequenceInt === 4 || sequenceInt === 5) {
+      setCoinRotate(lerp(coinRoate, 59.8, 0.006));
+      if (sequence3Correct) {
+        setCamSpeed(0.1);
+        setCamPos(new Vector3(0, 0.25, 2));
+        setCamFocus(new Vector3(0, 0.25, 0));
+        setFogFar(lerp(fogFar, 6, 0.005));
+      }
+    }
+
+    if (coinRoate >= 59.4 && sequenceInt === 3) {
+      setTimeout(() => {
+        setSequenceInt(4);
+      }, 5000);
+    }
+
+    if (sequenceInt === 6) {
+      setCoinFloat(false);
+      setCamSpeed(0.1);
+      setCoinRotate(122.5);
+
+      if (coinY >= 0) {
+        setCamSpeed(0.01);
+        setCamPos(new Vector3(0, 0.3, 2));
+        setCamFocus(new Vector3(0, 0.3, 0));
+      } else {
+        setCamPos(new Vector3(0, 0.25, 2));
+        setCamFocus(new Vector3(0, 0.25, 0));
+      }
+
+      setCoinY(lerp(coinY, 0.29, 0.01));
+      if (coinY >= 0.285) {
+        SetCoinZ(lerp(coinZ, -0.95, 0.01));
+      }
+      if (coinZ <= -0.945) {
+        setSequenceInt(7);
+      }
+    }
+
+    if (sequenceInt === 7) {
+      setCoinFloat(false);
+      setCamSpeed(0.1);
+      setCamPos(new Vector3(0, -0.5, 2));
+      setCamFocus(new Vector3(0, -0.5, 0));
+    }
+
+    if (sequenceInt === 8) {
+      setCoinFloat(false);
+      setCamSpeed(0.1);
+      setCamPos(new Vector3(0, -3, -1.7));
+      setCamFocus(new Vector3(0, 1, -1.75));
+    }
+  });
+
+  const { posy, posz } = useControls({
+    posy: 0,
+    posz: 1,
+  });
+
+  return (
+    <>
+      <fog attach="fog" args={["#202020", 0.1, fogFar]} />
+      <SoftShadows size={10} focus={0} samples={20} />
+      <Environment preset="night" />
+
+      <directionalLight
+        castShadow
+        position={[0, 0.9, 2]}
+        intensity={3}
+        shadow-mapSize={1024}
+        shadow-bias={-0.001}
+      >
+        <orthographicCamera
+          attach="shadow-camera"
+          args={[-10, 10, -10, 10, 0.1, 50]}
+        />
+      </directionalLight>
+
+      <Float
+        speed={1}
+        rotationIntensity={0.03}
+        floatIntensity={1}
+        floatingRange={[0, 0.001]}
+        enabled={coinFloat}
+      >
+        <Gltf
+          src="/models/coin.gltf"
+          position={[0, coinY, coinZ]}
+          rotation={[0, coinRoate, 0]}
+          scale={0.5}
+          onPointerOver={() => {
+            if (sequenceInt === 2) {
+              setHover(true);
+            }
+            if (sequenceInt === 5) {
+              setHover(true);
+            }
+          }}
+          onPointerOut={() => {
+            setHover(false);
+          }}
+          onClick={() => {
+            if (sequenceInt === 2) {
+              setSequenceInt(3);
+              setTimeout(() => {
+                setSequence3Correct(true);
+              }, 1500);
+            }
+            if (sequenceInt === 5) {
+              setSequenceInt(6);
+            }
+          }}
+          receiveShadow
+          castShadow
+        />
+      </Float>
+      <Angel
+        position={[0, 0.3, -1]}
+        rotation={[Math.PI * 0.5, 0, 0]}
+        scale={0.5}
+      />
+      <Rig
+        position={camPos}
+        focus={camFocus}
+        camSpeed={camSpeed}
+        sqeuenceInt={sequenceInt}
+      />
+    </>
+  );
+}
