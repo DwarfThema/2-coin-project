@@ -9,6 +9,7 @@ import { ACESFilmicToneMapping, sRGBEncoding } from "three";
 import LoadingScreen from "./src/loadingScreen";
 import { useRecoilState } from "recoil";
 import { sequenceIntState } from "./util/atom";
+import FinScene from "./src/finScene";
 
 export default function Home() {
   const [sequenceInt, setSequenceInt] = useRecoilState(sequenceIntState);
@@ -16,6 +17,7 @@ export default function Home() {
   return (
     <main className="h-screen w-screen absolute bg-[#202020] flex justify-center items-center">
       <LoadingScreen />
+      <FinScene />
       {/*       {sequenceInt === 2 ? (
         <div
           className="cursor-pointer text-white text-center text-2xl rounded-lg absolute bottom-[15%] py-1 px-4 bg-white bg-opacity-25 z-20"
@@ -45,7 +47,7 @@ export default function Home() {
             <Bloom
               luminanceThreshold={0.5}
               luminanceSmoothing={3}
-              intensity={2}
+              intensity={0.1}
             />
           </EffectComposer>
         </Suspense>

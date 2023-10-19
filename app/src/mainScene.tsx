@@ -9,7 +9,7 @@ import {
   useCursor,
 } from "@react-three/drei";
 import { isMobile } from "react-device-detect";
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import Rig from "./rig";
 import { Vector3 } from "three";
 import { useControls } from "leva";
@@ -69,7 +69,7 @@ export default function MainScene() {
       }
     }
 
-    if (coinRoate >= 59.4 && sequenceInt === 3) {
+    if (coinRoate >= 58 && sequenceInt === 3) {
       setTimeout(() => {
         setSequenceInt(4);
       }, 5000);
@@ -90,10 +90,10 @@ export default function MainScene() {
       }
 
       setCoinY(lerp(coinY, 0.29, 0.01));
-      if (coinY >= 0.285) {
-        SetCoinZ(lerp(coinZ, -0.95, 0.01));
+      if (coinY >= 0.275) {
+        SetCoinZ(lerp(coinZ, -0.96, 0.02));
       }
-      if (coinZ <= -0.945) {
+      if (coinZ <= -0.94) {
         setSequenceInt(7);
       }
     }
@@ -107,15 +107,17 @@ export default function MainScene() {
 
     if (sequenceInt === 8) {
       setCoinFloat(false);
-      setCamSpeed(0.1);
-      setCamPos(new Vector3(0, -3, -1.7));
+      setCamSpeed(1);
+      setCamPos(new Vector3(0, -4, -1.7));
       setCamFocus(new Vector3(0, 1, -1.75));
     }
-  });
 
-  const { posy, posz } = useControls({
-    posy: 0,
-    posz: 1,
+    if (sequenceInt === 10) {
+      setCoinFloat(false);
+      setCamSpeed(0.5);
+      setCamPos(new Vector3(0, -0.5, 2));
+      setCamFocus(new Vector3(0, -0.5, 0));
+    }
   });
 
   return (
@@ -127,6 +129,19 @@ export default function MainScene() {
       <directionalLight
         castShadow
         position={[0, 0.9, 2]}
+        intensity={3}
+        shadow-mapSize={1024}
+        shadow-bias={-0.001}
+      >
+        <orthographicCamera
+          attach="shadow-camera"
+          args={[-10, 10, -10, 10, 0.1, 50]}
+        />
+      </directionalLight>
+
+      <directionalLight
+        castShadow
+        position={[0.5, -10.1, 4.72]}
         intensity={3}
         shadow-mapSize={1024}
         shadow-bias={-0.001}

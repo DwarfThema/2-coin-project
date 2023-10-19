@@ -14,7 +14,11 @@ export const sequenceIntState = atom({
 5 : Lit On Fin
 6 : Coin Insert Anim
 7 : Coin Insert Anim Fin
-8 : Coin Close Anim Fin
+8 : Coin Close Anim Fin & camaera Move to Front Fin
+9 : LockAnim Ing
+10 : LockAnim Fin
+11 : view From Top
+12 : Fin Board
 
 */
 

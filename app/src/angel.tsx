@@ -1,4 +1,9 @@
-import { SpotLight, useAnimations, useGLTF } from "@react-three/drei";
+import {
+  SpotLight,
+  useAnimations,
+  useCursor,
+  useGLTF,
+} from "@react-three/drei";
 import {
   useEffect,
   useImperativeHandle,
@@ -14,6 +19,9 @@ import { useRecoilState } from "recoil";
 import { litRotTime, sequenceIntState } from "../util/atom";
 
 export default function Angel({ ...props }) {
+  const [hover, setHover] = useState(false);
+  useCursor(hover);
+
   const [sequenceInt, setSequenceInt] = useRecoilState(sequenceIntState);
 
   const AngleRef = useRef<Group>(null);
@@ -63,12 +71,34 @@ export default function Angel({ ...props }) {
   const [lit2, setLit2] = useState(false);
   const [lit3, setLit3] = useState(false);
 
+  const [litTotal, setlitTotal] = useState(false);
+
+  const [lockBallVis, setLockBallVis] = useState(false);
+
   useEffect(() => {
     if (sequenceInt === 4) {
       setLit1(true);
     }
     if (sequenceInt === 7) {
       animClose();
+    }
+    if (sequenceInt === 8) {
+      setLockBallVis(true);
+    } else {
+      setLockBallVis(false);
+    }
+
+    if (sequenceInt === 10) {
+      setTimeout(() => {
+        setlitTotal(false);
+        setSequenceInt(11);
+      }, 7000);
+    }
+
+    if (sequenceInt === 11) {
+      setTimeout(() => {
+        setSequenceInt(12);
+      }, 5000);
     }
   }, [sequenceInt]);
 
@@ -105,14 +135,26 @@ export default function Angel({ ...props }) {
     if (
       currentActionState &&
       sequenceInt === 7 &&
-      !currentActionState?.isRunning()
+      !currentActionState?.isRunning() &&
+      !litTotal
     ) {
       setTimeout(() => {
+        setlitTotal(true);
+      }, 4500);
+
+      setTimeout(() => {
         setSequenceInt(8);
-      }, 1000);
+      }, 8000);
+    }
+
+    if (
+      currentActionState &&
+      sequenceInt === 9 &&
+      !currentActionState?.isRunning()
+    ) {
+      setSequenceInt(10);
     }
   });
-
   return (
     <>
       <group ref={AngleRef} {...props}>
@@ -128,6 +170,27 @@ export default function Angel({ ...props }) {
           />
         ))}
       </group>
+
+      <mesh
+        position={[-0.03, -1.27, -1.8]}
+        scale={0.15}
+        visible={lockBallVis}
+        onClick={() => {
+          setSequenceInt(9);
+          animLock();
+        }}
+        onPointerOver={() => {
+          if (sequenceInt === 8) {
+            setHover(true);
+          }
+        }}
+        onPointerOut={() => {
+          setHover(false);
+        }}
+      >
+        <sphereGeometry />
+        <meshPhongMaterial opacity={0} transparent />
+      </mesh>
 
       <group name="lit1" visible={lit1}>
         <pointLight
@@ -166,6 +229,58 @@ export default function Angel({ ...props }) {
         />
       </group>
       <group name="lit3" visible={lit3}>
+        <pointLight
+          position={[0, -0.09, -1.55]}
+          intensity={0.5}
+          color="#fffecb"
+        />
+        <pointLight
+          position={[-0.34, -0.27, -2.11]}
+          intensity={0.5}
+          color="#fffecb"
+        />
+        <pointLight
+          position={[0.34, -0.27, -2.11]}
+          intensity={0.5}
+          color="#fffecb"
+        />
+      </group>
+
+      <group name="lit1" visible={litTotal}>
+        <pointLight
+          position={[-0.7, -0.56, -2.11]}
+          intensity={0.4}
+          color="#fffecb"
+        />
+
+        <pointLight
+          position={[-0.25, -1.14, -2.11]}
+          intensity={0.4}
+          color="#fffecb"
+        />
+
+        <pointLight
+          position={[-0.44, -0.76, -1.79]}
+          intensity={0.2}
+          color="#fffecb"
+        />
+
+        <pointLight
+          position={[0.64, -0.56, -2.11]}
+          intensity={0.4}
+          color="#fffecb"
+        />
+        <pointLight
+          position={[0.22, -1.14, -2.11]}
+          intensity={0.4}
+          color="#fffecb"
+        />
+        <pointLight
+          position={[0.41, -0.76, -1.79]}
+          intensity={0.2}
+          color="#fffecb"
+        />
+
         <pointLight
           position={[0, -0.09, -1.55]}
           intensity={0.5}
