@@ -10,6 +10,7 @@ import LoadingScreen from "./src/loadingScreen";
 import { useRecoilState } from "recoil";
 import { sequenceIntState } from "./util/atom";
 import FinScene from "./src/finScene";
+import Info from "./src/info";
 
 export default function Home() {
   const [sequenceInt, setSequenceInt] = useRecoilState(sequenceIntState);
@@ -18,6 +19,7 @@ export default function Home() {
     <main className="h-screen w-screen absolute bg-[#202020] flex justify-center items-center">
       <LoadingScreen />
       <FinScene />
+      <Info />
       {/*       {sequenceInt === 2 ? (
         <div
           className="cursor-pointer text-white text-center text-2xl rounded-lg absolute bottom-[15%] py-1 px-4 bg-white bg-opacity-25 z-20"

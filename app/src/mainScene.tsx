@@ -53,8 +53,6 @@ export default function MainScene() {
   }, []);
 
   useFrame(() => {
-    console.log(sequenceInt);
-
     if (sequenceInt === 0 || sequenceInt === 1 || sequenceInt === 2) {
       setCamPos(new Vector3(0, 0, 1.3));
     }
