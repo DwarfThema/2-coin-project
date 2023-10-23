@@ -49,7 +49,6 @@ export default function Home() {
             gl.toneMappingExposure = 0.9;
           }}
         >
-          <Stats />
           <Suspense fallback={null}>
             <Environment preset="night" />
             <fog attach="fog" args={["#202030", 10, 5000]} />
