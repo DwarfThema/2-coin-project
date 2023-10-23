@@ -17,7 +17,6 @@ export default function Info() {
     handleResize();
     window.addEventListener("resize", handleResize);
     setCirclePos((windowDimensions as number) - 50);
-    console.log(circlePos);
     return (): void => window.removeEventListener("resize", handleResize);
   }, [circlePos, windowDimensions]); // Empty array ensures that effect is only run on mount
 
@@ -65,7 +64,9 @@ export default function Info() {
         animate={isOpen ? "open" : "closed"}
         transition={{ duration: 0.5, type: "tween" }}
         variants={infoContents}
-        className="w-[60%] h-[60%] z-40 bg-red-400 absolute"
+        className={`w-[60%] h-[60%] z-40 bg-red-400 absolute ${
+          !isOpen ? `hidden` : `flex`
+        }`}
       >
         123
       </motion.div>
