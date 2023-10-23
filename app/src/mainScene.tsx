@@ -32,6 +32,7 @@ export default function MainScene() {
   // Sequence Ref
   const [sequenceInt, setSequenceInt] = useRecoilState(sequenceIntState);
   const [sequence3Correct, setSequence3Correct] = useState(false);
+  const [sequence7TimeYCorrect, setSequence7TimeYCorrect] = useState(false);
   const [sequence8CamYCorrect, setSequence8CamYCorrect] = useState(-0.5);
   const [sequence8CamZCorrect, setSequence8CamZCorrect] = useState(0);
 
@@ -58,7 +59,9 @@ export default function MainScene() {
     }
 
     if (sequenceInt === 3 || sequenceInt === 4 || sequenceInt === 5) {
-      setCoinRotate(lerp(coinRoate, 59.8, 0.006));
+      if (coinRoate <= 59.8) {
+        setCoinRotate(lerp(coinRoate, 60, 0.006));
+      }
       if (sequence3Correct) {
         setCamSpeed(0.1);
         setCamPos(new Vector3(0, 0.25, 2));
@@ -67,10 +70,8 @@ export default function MainScene() {
       }
     }
 
-    if (coinRoate >= 58 && sequenceInt === 3) {
-      setTimeout(() => {
-        setSequenceInt(4);
-      }, 5000);
+    if (coinRoate >= 59.8 && sequenceInt === 3) {
+      setSequenceInt(4);
     }
 
     if (sequenceInt === 6) {
@@ -87,20 +88,27 @@ export default function MainScene() {
         setCamFocus(new Vector3(0, 0.25, 0));
       }
 
-      setCoinY(lerp(coinY, 0.29, 0.01));
+      setCoinY(lerp(coinY, 0.3, 0.01));
       if (coinY >= 0.275) {
-        SetCoinZ(lerp(coinZ, -0.96, 0.02));
+        SetCoinZ(lerp(coinZ, -1.1, 0.02));
       }
-      if (coinZ <= -0.94) {
+      if (coinZ <= -0.98) {
         setSequenceInt(7);
       }
     }
 
     if (sequenceInt === 7) {
-      setCoinFloat(false);
-      setCamSpeed(0.1);
-      setCamPos(new Vector3(0, -0.5, 2));
-      setCamFocus(new Vector3(0, -0.5, 0));
+      setTimeout(() => {
+        setSequence7TimeYCorrect(true);
+      }, 2000);
+      // 시간 변겨할때 angle도 변경해야함.
+
+      if (sequence7TimeYCorrect) {
+        setCoinFloat(false);
+        setCamSpeed(0.1);
+        setCamPos(new Vector3(0, -0.5, 2));
+        setCamFocus(new Vector3(0, -0.5, 0));
+      }
     }
 
     if (sequenceInt === 8) {
@@ -122,12 +130,10 @@ export default function MainScene() {
     <>
       <fog attach="fog" args={["#202020", 0.1, fogFar]} />
       <SoftShadows size={10} focus={0} samples={20} />
-      <Environment preset="night" />
-
       <directionalLight
         castShadow
         position={[0, 0.9, 2]}
-        intensity={3}
+        intensity={1.5}
         shadow-mapSize={1024}
         shadow-bias={-0.001}
       >
@@ -140,7 +146,7 @@ export default function MainScene() {
       <directionalLight
         castShadow
         position={[0.5, -10.1, 4.72]}
-        intensity={3}
+        intensity={1.5}
         shadow-mapSize={1024}
         shadow-bias={-0.001}
       >
@@ -149,6 +155,36 @@ export default function MainScene() {
           args={[-10, 10, -10, 10, 0.1, 50]}
         />
       </directionalLight>
+      <Gltf
+        src="/models/coin.gltf"
+        position={[0, coinY, coinZ]}
+        rotation={[0, coinRoate, 0]}
+        scale={0.5}
+        onPointerOver={() => {
+          if (sequenceInt === 2) {
+            setHover(true);
+          }
+          if (sequenceInt === 5) {
+            setHover(true);
+          }
+        }}
+        onPointerOut={() => {
+          setHover(false);
+        }}
+        onClick={() => {
+          if (sequenceInt === 2) {
+            setSequenceInt(3);
+            setTimeout(() => {
+              setSequence3Correct(true);
+            }, 1500);
+          }
+          if (sequenceInt === 5) {
+            setSequenceInt(6);
+          }
+        }}
+        receiveShadow
+        castShadow
+      />
 
       <Float
         speed={1}
@@ -156,38 +192,7 @@ export default function MainScene() {
         floatIntensity={1}
         floatingRange={[0, 0.001]}
         enabled={coinFloat}
-      >
-        <Gltf
-          src="/models/coin.gltf"
-          position={[0, coinY, coinZ]}
-          rotation={[0, coinRoate, 0]}
-          scale={0.5}
-          onPointerOver={() => {
-            if (sequenceInt === 2) {
-              setHover(true);
-            }
-            if (sequenceInt === 5) {
-              setHover(true);
-            }
-          }}
-          onPointerOut={() => {
-            setHover(false);
-          }}
-          onClick={() => {
-            if (sequenceInt === 2) {
-              setSequenceInt(3);
-              setTimeout(() => {
-                setSequence3Correct(true);
-              }, 1500);
-            }
-            if (sequenceInt === 5) {
-              setSequenceInt(6);
-            }
-          }}
-          receiveShadow
-          castShadow
-        />
-      </Float>
+      ></Float>
       <Angel
         position={[0, 0.3, -1]}
         rotation={[Math.PI * 0.5, 0, 0]}

@@ -18,7 +18,6 @@ export default function Rig({
   const { controls } = useThree() as { controls: any };
 
   const [rigFix, setRigFix] = useState(false);
-  const [azimuteInt, setAzimuteInt] = useState(0);
   useEffect(() => {
     if (!rigFix) {
       controls?.setLookAt(...position.toArray(), ...focus.toArray(), true);
@@ -30,12 +29,10 @@ export default function Rig({
       if (isMobile) {
         setTimeout(() => {
           setRigFix(true);
-          setAzimuteInt(8);
         }, 4000);
       }
     } else {
       setRigFix(false);
-      setAzimuteInt(0);
     }
   }, [sqeuenceInt]);
 

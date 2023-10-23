@@ -38,30 +38,28 @@ export default function Home() {
           INSERT COIN
         </div>
       ) : null} */}
-      <Canvas
-        shadows
-        className="z-0 h-screen w-screen"
-        camera={{ fov: fovState }}
-        onCreated={({ gl }) => {
-          gl.toneMapping = ACESFilmicToneMapping;
-          gl.toneMappingExposure = 0.9;
-        }}
-      >
-        <Stats />
-        <Suspense fallback={null}>
-          <Environment preset="night" />
-          <fog attach="fog" args={["#202030", 10, 5000]} />
-          <MainScene />
-          <EffectComposer>
-            <Vignette eskil={false} offset={0.05} darkness={0.7} />
-            <Bloom
-              luminanceThreshold={0.5}
-              luminanceSmoothing={3}
-              intensity={0.1}
-            />
-          </EffectComposer>
-        </Suspense>
-      </Canvas>
+
+      {sequenceInt !== 13 ? (
+        <Canvas
+          shadows
+          className="z-0 h-screen w-screen"
+          camera={{ fov: fovState }}
+          onCreated={({ gl }) => {
+            gl.toneMapping = ACESFilmicToneMapping;
+            gl.toneMappingExposure = 0.9;
+          }}
+        >
+          <Stats />
+          <Suspense fallback={null}>
+            <Environment preset="night" />
+            <fog attach="fog" args={["#202030", 10, 5000]} />
+            <MainScene />
+            <EffectComposer>
+              <Vignette eskil={false} offset={0.05} darkness={0.7} />
+            </EffectComposer>
+          </Suspense>
+        </Canvas>
+      ) : null}
     </main>
   );
 }

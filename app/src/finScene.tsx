@@ -10,17 +10,21 @@ export default function FinScene() {
   const [isBoard, setIsBoard] = useState(false);
 
   useEffect(() => {
-    if (sequenceInt === 12) {
+    if (sequenceInt === 12 || sequenceInt === 13) {
       setTimeout(() => {
         setIsBoard(true);
-      }, 2000);
+      }, 500);
+
+      setTimeout(() => {
+        setSequenceInt(13);
+      }, 5000);
     }
   }, [sequenceInt]);
 
   return (
     <div
       className={`transition-opacity ease-in-out duration-[5000ms] absolute bg-[#252525] w-screen h-screen flex flex-col justify-center items-center text-[#DDDDDD] "
-        ${sequenceInt === 12 ? "z-30" : "-z-10 hidden"}
+        ${sequenceInt === 12 || sequenceInt === 13 ? "z-40" : "-z-10 hidden"}
         ${isBoard ? "opacity-100" : "opacity-0"}`}
     >
       <Link

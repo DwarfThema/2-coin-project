@@ -80,7 +80,10 @@ export default function Angel({ ...props }) {
       setLit1(true);
     }
     if (sequenceInt === 7) {
-      animClose();
+      setTimeout(() => {
+        animClose();
+      }, 2000);
+      // 시간 변겨할때 mainScene도 변경해야함.
     }
     if (sequenceInt === 8) {
       setLockBallVis(true);

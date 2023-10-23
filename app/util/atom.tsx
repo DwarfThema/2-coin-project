@@ -18,7 +18,8 @@ export const sequenceIntState = atom({
 9 : LockAnim Ing
 10 : LockAnim Fin
 11 : view From Top
-12 : Fin Board
+12 : Fin Board Ing
+13 : Fin Board On
 
 */
 
