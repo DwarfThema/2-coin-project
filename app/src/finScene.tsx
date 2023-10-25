@@ -17,13 +17,13 @@ export default function FinScene() {
 
       setTimeout(() => {
         setSequenceInt(13);
-      }, 5000);
+      }, 4000);
     }
   }, [sequenceInt]);
 
   return (
     <div
-      className={`transition-opacity ease-in-out duration-[5000ms] absolute bg-[#252525] w-screen h-screen flex flex-col justify-center items-center text-[#DDDDDD] "
+      className={`transition-opacity ease-in-out duration-[4000ms] absolute bg-[#252525] w-screen h-screen flex flex-col justify-center items-center text-[#DDDDDD] "
         ${sequenceInt === 12 || sequenceInt === 13 ? "z-40" : "-z-10 hidden"}
         ${isBoard ? "opacity-100" : "opacity-0"}`}
     >

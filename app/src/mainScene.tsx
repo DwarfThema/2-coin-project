@@ -53,20 +53,20 @@ export default function MainScene() {
     }
   }, []);
 
-  useFrame(() => {
+  useFrame((state, delta) => {
     if (sequenceInt === 0 || sequenceInt === 1 || sequenceInt === 2) {
       setCamPos(new Vector3(0, 0, 1.3));
     }
 
     if (sequenceInt === 3 || sequenceInt === 4 || sequenceInt === 5) {
       if (coinRoate <= 59.8) {
-        setCoinRotate(lerp(coinRoate, 60, 0.006));
+        setCoinRotate(lerp(coinRoate, 60, 0.4 * delta));
       }
       if (sequence3Correct) {
         setCamSpeed(0.1);
         setCamPos(new Vector3(0, 0.25, 2));
         setCamFocus(new Vector3(0, 0.25, 0));
-        setFogFar(lerp(fogFar, 6, 0.005));
+        setFogFar(lerp(fogFar, 6, 0.3 * delta));
       }
     }
 
@@ -88,9 +88,9 @@ export default function MainScene() {
         setCamFocus(new Vector3(0, 0.25, 0));
       }
 
-      setCoinY(lerp(coinY, 0.3, 0.01));
+      setCoinY(lerp(coinY, 0.3, 0.8 * delta));
       if (coinY >= 0.275) {
-        SetCoinZ(lerp(coinZ, -1.1, 0.02));
+        SetCoinZ(lerp(coinZ, -1.1, 1.8 * delta));
       }
       if (coinZ <= -0.98) {
         setSequenceInt(7);
@@ -134,6 +134,18 @@ export default function MainScene() {
         castShadow
         position={[0, 0.9, 2]}
         intensity={1.5}
+        shadow-mapSize={1024}
+        shadow-bias={-0.001}
+      >
+        <orthographicCamera
+          attach="shadow-camera"
+          args={[-10, 10, -10, 10, 0.1, 50]}
+        />
+      </directionalLight>
+      <directionalLight
+        castShadow
+        position={[0, -0.8, 5]}
+        intensity={0.3}
         shadow-mapSize={1024}
         shadow-bias={-0.001}
       >
