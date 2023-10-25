@@ -92,7 +92,7 @@ export default function MainScene() {
       if (coinY >= 0.275) {
         SetCoinZ(lerp(coinZ, -1.1, 1.8 * delta));
       }
-      if (coinZ <= -0.98) {
+      if (coinZ <= -0.96) {
         setSequenceInt(7);
       }
     }
