@@ -59,26 +59,31 @@ export default function LoadingScreen() {
         src={LoadingEuro}
         alt="loadingEuro"
         className={`w-[80px] h-fit ${progress >= 20 ? "z-50" : "z-0"}`}
+        quality={40}
       />
       <Image
         src={LoadingEuro}
         alt="loadingEuro"
         className={`w-[80px] h-fit ${star2 ? "z-50" : "z-0"}`}
+        quality={40}
       />
       <Image
         src={LoadingEuro}
         alt="loadingEuro"
         className={`w-[80px] h-fit ${star3 ? "z-50" : "z-0"}`}
+        quality={40}
       />
       <Image
         src={LoadingEuro}
         alt="loadingEuro"
         className={`w-[80px] h-fit ${star4 ? "z-50" : "z-0"}`}
+        quality={40}
       />
       <Image
         src={LoadingEuro}
         alt="loadingEuro"
         className={`w-[80px] h-fit ${star5 ? "z-50" : "z-0"}`}
+        quality={40}
       />
     </div>
   );

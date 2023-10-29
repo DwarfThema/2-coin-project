@@ -34,7 +34,7 @@ export default function FinScene() {
     >
       <div className="flex justify-center items-center mb-[30px]">
         <div className="flex justify-center items-center lg:mr-10 zero:mr-3">
-          <div className="text-right w-[75px] lg:mr-4 zero:mr-1 ">
+          <div className="text-right w-[75px] lg:mr-2 zero:mr-0 ">
             ReStart :
           </div>
           <button
@@ -67,7 +67,7 @@ export default function FinScene() {
           </Link>
         </div>
         <div className="flex justify-center items-center">
-          <div className="text-right lg:w-[75px] zero:w-[60px] mr-4 ">
+          <div className="text-right lg:w-[75px] zero:w-[60px] lg:mr-4 zero:mr-2 ">
             Site :
           </div>
 
