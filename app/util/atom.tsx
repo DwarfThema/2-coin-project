@@ -8,13 +8,13 @@ export const sequenceIntState = atom({
 /* 
 0 : Loading State
 1 : Set Init (Cam Moving)
-2 : Visible Coin
-3 : Coin Rotate 
+2 : Visible Euro
+3 : Euro Rotate 
 4 : Lit On
 5 : Lit On Fin
-6 : Coin Insert Anim
-7 : Coin Insert Anim Fin
-8 : Coin Close Anim Fin & camaera Move to Front Fin
+6 : Euro Insert Anim
+7 : Euro Insert Anim Fin
+8 : Euro Close Anim Fin & camaera Move to Front Fin
 9 : LockAnim Ing
 10 : LockAnim Fin
 11 : view From Top

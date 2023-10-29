@@ -1,10 +1,10 @@
-## VIVLE-THEME-MUSEUM : 2-Coin-Project
+## VIVLE-THEME-MUSEUM : 2-Euro-Project
 
-Title : 2-Coin-Project
+Title : 2-Euro-Project
 
 Author : JeounEun Park
 
-ArtUrl : [`Click`](https://2-coin-project-git-master-dwarfthema.vercel.app/)
+ArtUrl : [`Click`](https://2-Euro-project-git-master-dwarfthema.vercel.app/)
 
 Platform : [`VivleThemeMuseum`](https://vivle-theme-museum-git-master-dwarfthema.vercel.app/)
 

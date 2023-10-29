@@ -28,26 +28,12 @@ export default function Home() {
       <LoadingScreen />
       <FinScene />
       <Info />
-      {/*       {sequenceInt === 2 ? (
-        <div
-          className="cursor-pointer text-white text-center text-2xl rounded-lg absolute bottom-[15%] py-1 px-4 bg-white bg-opacity-25 z-20"
-          onClick={() => {
-            setSequenceInt(3);
-          }}
-        >
-          INSERT COIN
-        </div>
-      ) : null} */}
 
       {sequenceInt !== 13 ? (
         <Canvas
           shadows
           className="z-0 h-screen w-screen"
           camera={{ fov: fovState }}
-          onCreated={({ gl }) => {
-            gl.toneMapping = ACESFilmicToneMapping;
-            gl.toneMappingExposure = 0.9;
-          }}
         >
           <Suspense fallback={null}>
             <Environment preset="night" />

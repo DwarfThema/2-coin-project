@@ -1,5 +1,7 @@
 import { motion, useCycle } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import InfoECoin from "../../public/textures/infoCoin_color.png";
 
 export default function Info() {
   const [isOpen, toggleOpen] = useCycle(false, true);
@@ -28,35 +30,14 @@ export default function Info() {
         className="z-30 fixed top-0 right-0 bottom-0 w-[90px] h-[90px] flex items-start justify-end"
       >
         <motion.div
-          className="z-30 w-[60px] h-[60px] m-4 rounded-full bg-white "
+          className="z-30 w-[50px] h-[50px] m-4 rounded-full bg-zinc-900 opacity-80 "
           variants={infoBar}
         ></motion.div>
         <button
           onClick={() => toggleOpen()}
-          className="z-50 absolute mr-[33px] mt-[35px] outline-none border-none rounded-[50%]"
+          className="z-50 absolute mr-[10px] mt-[10px] outline-none border-none rounded-[50%]"
         >
-          <svg width="23" height="23" viewBox="0 0 23 23">
-            <Path
-              variants={{
-                closed: { d: "M 2 2.5 L 20 2.5" },
-                open: { d: "M 3 16.5 L 17 2.5" },
-              }}
-            />
-            <Path
-              d="M 2 9.423 L 20 9.423"
-              variants={{
-                closed: { opacity: 1 },
-                open: { opacity: 0 },
-              }}
-              transition={{ duration: 0.1 }}
-            />
-            <Path
-              variants={{
-                closed: { d: "M 2 16.346 L 20 16.346" },
-                open: { d: "M 3 2.5 L 17 16.346" },
-              }}
-            />
-          </svg>
+          <Image src={InfoECoin} alt="infoCoin" className="w-[60px] h-fit" />
         </button>
       </motion.div>
       <motion.div
@@ -64,11 +45,24 @@ export default function Info() {
         animate={isOpen ? "open" : "closed"}
         transition={{ duration: 0.5, type: "tween" }}
         variants={infoContents}
-        className={`w-[60%] h-[60%] z-40 bg-red-400 absolute ${
+        className={`w-[60%] h-[60%] z-40 absolute flex flex-col items-center justify-center text-white ${
           !isOpen ? `hidden` : `flex`
         }`}
       >
-        123
+        <div className="xl:text-[50px] zero:text-[28.5px]">2 EURO PROJEKT</div>
+        <br />
+        <div className="xl:text-[20px] zero:text-[14px] font-light">
+          The site started with 2 EURO coin remaining from the trip to Venice.
+          <br />
+          You can see the movement and lighting effects to realize the real
+          thing. <br />
+          It starts when you press the coin. <br />
+          <br />
+          Grazie!
+          <br />
+          <br />
+          -Jeongeun
+        </div>
       </motion.div>
     </>
   );
