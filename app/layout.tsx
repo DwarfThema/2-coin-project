@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Tai_Heritage_Pro } from "next/font/google";
 import RecoilRootProvider from "./util/recoilRoot";
 import { Analytics } from "@vercel/analytics/react";
+import GoogleAnalytics from "./src/googleAnalytics";
 
 const tai = Tai_Heritage_Pro({ subsets: ["latin"], weight: "400" });
 
@@ -61,6 +62,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={tai.className}>
         <Analytics />
+        <GoogleAnalytics />
         <RecoilRootProvider>{children}</RecoilRootProvider>
       </body>
     </html>
