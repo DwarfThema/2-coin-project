@@ -61,9 +61,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={tai.className}>
-        <Analytics />
-        <GoogleAnalytics />
-        <RecoilRootProvider>{children}</RecoilRootProvider>
+        <RecoilRootProvider>
+          <GoogleAnalytics />
+          <Analytics />
+          {children}
+        </RecoilRootProvider>
       </body>
     </html>
   );
